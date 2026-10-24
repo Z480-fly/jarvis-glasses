@@ -15,10 +15,17 @@ It should feel like having a personal AI assistant that lives in your vision, no
 ## Design Principles
 
 1. **Wearable first** – Features only fully unlock while the glasses are equipped.
-2. **Natural language** – Prefer “Jarvis, scan that” over rigid slash commands.
-3. **Context aware** – The AI should know what you’re looking at, where you are, and roughly what you have.
+2. **Natural language when possible** – Prefer “Jarvis, scan that” over rigid slash commands.
+3. **Context aware** – Knows what you’re looking at, where you are, and roughly what you have.
 4. **Helpful, not overpowered** – It assists. It doesn’t play the game for you.
-5. **Hybrid intelligence** – Use real LLMs for understanding, Script API for execution.
+5. **Layered intelligence** – Strong offline core first, optional real AI on top.
+
+## Approach: Middle Ground
+
+- **Offline Core** – Everything useful that can be done with pure Script API (scan, basic find, simple builds, local responses). Works with no internet and no API key.
+- **Optional AI Layer** – When connected, the glasses gain much better natural language understanding and smarter answers. The offline features still work if the AI is unavailable.
+
+This gives a playable assistant immediately, with a clear upgrade path to full Jarvis-style intelligence.
 
 ## Feature Ideas
 
@@ -51,5 +58,6 @@ It should feel like having a personal AI assistant that lives in your vision, no
 ## Technical Direction
 
 - Bedrock Script API (JavaScript/TypeScript) for the in-game side
-- Lightweight bridge (Cloudflare Worker, Northflank, or simple Node server) for the LLM calls
+- Offline logic lives entirely in the behavior pack
+- Optional lightweight bridge (Cloudflare Worker, Northflank, or simple Node server) for LLM calls
 - Structured output from the AI so the game can reliably execute actions
