@@ -10,7 +10,7 @@ Inspired by Tony Stark’s glasses — not a mob that follows you, but a pair of
 
 You equip a special pair of **Jarvis Glasses**.  
 While wearing them you can talk to the AI through chat (or a dedicated interaction).  
-The AI understands natural language and can:
+It can:
 
 - **Scan** blocks, entities, and structures you’re looking at
 - **Find** resources, biomes, structures, chests, your last death, etc.
@@ -18,9 +18,24 @@ The AI understands natural language and can:
 - Answer questions about the world, inventory, threats, time, weather
 - Remember places and goals you mark
 
-This is a **hybrid system**:
-- The in-game side is a normal Bedrock behavior + resource pack (Script API)
-- The intelligence comes from an external AI (Grok, Claude, Gemini, OpenAI, etc.) via a small bridge
+---
+
+## Approach: Middle Ground
+
+This project is designed as a **layered system**:
+
+1. **Offline Core (always works)**  
+   Solid Script API features that work with no internet and no API key:
+   - Raycast scanning
+   - Basic find (nearest ore, structure, etc.)
+   - Simple build assist (platforms, walls, shapes)
+   - Local commands and responses
+
+2. **Optional AI Layer**  
+   When you want smarter natural language understanding, you can connect an external AI (Grok, Claude, Gemini, OpenAI, etc.) through a small bridge.  
+   The offline core still works even if the AI is unavailable.
+
+This way you get a usable glasses assistant right away, and the real “Jarvis” intelligence is an upgrade on top.
 
 ---
 
@@ -30,12 +45,9 @@ This is a **hybrid system**:
 Player (wearing glasses)
     ↓  chat / interact
 Bedrock Script API (glasses item + systems)
-    ↓  HTTP / websocket
-AI Bridge (simple backend or Cloudflare Worker)
     ↓
-LLM (Grok / Claude / Gemini / OpenAI…)
-    ↓
-Commands / responses back into the game
+  ├─ Offline logic (scan / find / build)
+  └─ Optional → AI Bridge → LLM → structured actions back into the game
 ```
 
 ### In-game components
@@ -47,7 +59,7 @@ Commands / responses back into the game
   - Execute build/find/scan actions
   - Display responses (chat, title, actionbar, or custom UI)
 
-### AI Bridge
+### Optional AI Bridge
 A lightweight backend that:
 - Receives context (player position, looking-at block, inventory summary, recent chat)
 - Sends a well-crafted prompt to the LLM
@@ -59,16 +71,16 @@ A lightweight backend that:
 
 - [ ] Glasses item + basic wearable behavior
 - [ ] Chat command / prefix to talk to Jarvis (`!j` or `jarvis, ...`)
-- [ ] Raycast “what am I looking at?” scan
-- [ ] Simple find commands (nearest diamond, village, etc.)
-- [ ] Basic build assist (place platform, wall, simple shapes)
-- [ ] External AI bridge (even if just a stub at first)
+- [ ] Raycast “what am I looking at?” scan (offline)
+- [ ] Simple find commands (nearest diamond, village, etc.) (offline)
+- [ ] Basic build assist (place platform, wall, simple shapes) (offline)
+- [ ] Optional external AI bridge (can be added later)
 
 ---
 
 ## Status
 
-Very early stage. This repo currently holds the vision and will grow into the actual Bedrock addon + bridge code.
+Very early stage. This repo currently holds the vision and will grow into the actual Bedrock addon + optional bridge code.
 
 ---
 
