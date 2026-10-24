@@ -1,0 +1,20 @@
+# Minecraft / Bedrock
+*.mcaddon
+*.mcpack
+*.mcworld
+.packs/
+
+# Node / bridge
+node_modules/
+.env
+.env.*
+dist/
+build/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
